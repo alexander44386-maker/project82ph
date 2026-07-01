@@ -77,15 +77,15 @@ header{
 
 .map-legend{
   position:absolute;top:10px;left:10px;
-  background:rgba(7,20,40,0.92);border:1px solid var(--border);
+  background:rgba(7,20,40,0.92);
   border-radius:8px;padding:6px 10px;backdrop-filter:blur(6px);
+  display:flex;flex-direction:column;gap:3px;
 }
-.legend-item{display:flex;align-items:center;justify-content:center;border-radius:6px;padding:4px 9px}
-.legend-item + .legend-item{margin-top:4px}
-.legend-lbl{font-size:10px;font-weight:700;white-space:nowrap;text-transform:uppercase}
+.legend-item{display:flex;align-items:center;justify-content:center;border-radius:4px;padding:2px 6px}
+.legend-lbl{font-size:9px;font-weight:700;white-space:nowrap;text-transform:uppercase}
 
 .map-hint{
-  position:absolute;top:10px;right:10px;max-width:62%;
+  position:absolute;top:12%;right:10px;max-width:62%;
   background:rgba(7,20,40,0.92);border:1px solid var(--border2);
   border-radius:8px;padding:6px 10px;backdrop-filter:blur(6px);
   display:flex;align-items:center;gap:6px;z-index:2;
@@ -265,7 +265,7 @@ header{
   font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;
   letter-spacing:0.6px;text-align:center;margin-bottom:6px;
 }
-.others-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.others-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
 
 .others-btn{
   display:flex;align-items:center;justify-content:center;gap:7px;
@@ -381,9 +381,7 @@ header{
 .mtn-diff-red{color:#EF4444}
 .mtn-diff-yellow{color:#F59E0B}
 .mtn-diff-green{color:#10B981}
-.mtn-diff-badge.mtn-diff-red{background:rgba(239,68,68,0.15)}
-.mtn-diff-badge.mtn-diff-yellow{background:rgba(245,158,11,0.15)}
-.mtn-diff-badge.mtn-diff-green{background:rgba(16,185,129,0.15)}
+
 .mtn-popular{font-size:11px;color:#FBBF24;font-weight:600;margin-bottom:5px;line-height:1.3}
 .mtn-sort-bar{position:relative;display:flex;justify-content:flex-end;padding:8px 16px 0}
 .mtn-sort-btn{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.35);color:#10B981;font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer}
@@ -464,7 +462,7 @@ header{
   opacity:0;pointer-events:none;transition:opacity 0.22s;
   overflow-y:auto;-webkit-overflow-scrolling:touch;
   display:flex;flex-direction:column;align-items:center;
-  padding:52px 16px 32px;
+  padding:48px 16px 32px;
 }
 .mtn-share-overlay.open{opacity:1;pointer-events:all}
 .mtn-share-close{
@@ -480,9 +478,9 @@ header{
 .mtn-share-card{
   width:min(390px,100%);
   background:linear-gradient(160deg,#071A10 0%,#04120A 100%);
-  border:1px solid rgba(16,185,129,0.18);border-radius:20px;
+  border:1px solid rgba(16,185,129,0.5);border-radius:20px;
   padding:28px 22px 24px;
-  box-shadow:0 0 60px rgba(16,185,129,0.12),0 16px 48px rgba(0,0,0,0.6);
+  box-shadow:0 0 24px rgba(16,185,129,0.45),inset 0 0 24px rgba(16,185,129,0.08),0 16px 48px rgba(0,0,0,0.6);
   position:relative;overflow:hidden;
 }
 .mtn-share-card::before{
@@ -531,27 +529,36 @@ header{
   display:flex;flex-direction:column;gap:6px;position:relative;z-index:1;
   width:84%;max-width:280px;margin:0 auto;
 }
+/* 5 or fewer mountains: single column, centered, 200% bigger font */
+.mtn-share-list.big{align-items:center}
+.mtn-share-list.big .mtn-share-item{justify-content:center;width:100%}
+.mtn-share-list.big .mtn-share-item-num{font-size:26px}
+.mtn-share-list.big .mtn-share-item-icon{font-size:30px}
+.mtn-share-list.big .mtn-share-item-name{font-size:26px}
+/* 6–10 mountains: 2 columns at normal font size */
 .mtn-share-list.two-col{
   display:flex;flex-direction:row;gap:8px;
   width:100%;max-width:100%;margin:0;
 }
+.mtn-share-list.two-col .mtn-share-item{padding:3px 6px;gap:5px}
+/* 11+ mountains: 3 columns at 70% of normal font size */
+.mtn-share-list.three-col{
+  display:flex;flex-direction:row;gap:6px;
+  width:100%;max-width:100%;margin:0;
+}
+.mtn-share-list.three-col .mtn-share-item{padding:2px 5px;gap:4px}
+.mtn-share-list.three-col .mtn-share-item-num{font-size:9.1px;min-width:10px}
+.mtn-share-list.three-col .mtn-share-item-icon{font-size:10.5px}
+.mtn-share-list.three-col .mtn-share-item-name{font-size:9.1px}
 .mtn-share-col{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
 .mtn-share-item{
   display:flex;align-items:center;gap:7px;
   background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.15);
   border-radius:6px;padding:3px 9px;
 }
-.mtn-share-list.two-col .mtn-share-item{padding:3px 6px;gap:5px}
-.mtn-share-list.two-col.many .mtn-share-item{padding:2px 5px}
 .mtn-share-item-num{font-size:13px;font-weight:700;color:rgba(16,185,129,0.75);flex-shrink:0}
-.mtn-share-list.two-col .mtn-share-item-num{font-size:9px;min-width:11px}
-.mtn-share-list.two-col.many .mtn-share-item-num{font-size:8.5px;min-width:10px}
 .mtn-share-item-icon{font-size:15px;flex-shrink:0}
-.mtn-share-list.two-col .mtn-share-item-icon{font-size:11px}
-.mtn-share-list.two-col.many .mtn-share-item-icon{font-size:10px}
 .mtn-share-item-name{font-size:13px;font-weight:600;color:var(--text);flex:1}
-.mtn-share-list.two-col .mtn-share-item-name{font-size:9.5px}
-.mtn-share-list.two-col.many .mtn-share-item-name{font-size:8.5px}
 .mtn-share-empty{
   text-align:center;padding:28px 0;
   color:rgba(255,255,255,0.3);font-size:13px;line-height:1.6;
@@ -584,6 +591,7 @@ header{
   font-size:9.5px;color:rgba(255,255,255,0.25);
   letter-spacing:0.5px;position:relative;z-index:1;line-height:1.7;
 }
+.mtn-share-footer-white{color:#FFFFFF}
 .mtn-share-footer-link{color:#10B981;font-weight:700;text-decoration:underline}
 .mtn-share-form-card{
   width:min(360px,100%);background:#0B1622;border:1px solid rgba(16,185,129,0.25);
@@ -609,8 +617,9 @@ header{
 .pres-photo-fallback{font-size:20px;line-height:1}
 .pres-photo{width:100%;height:100%;object-fit:cover;object-position:top center}
 .pres-term{font-size:10.5px;color:#E2434D;font-weight:600;margin-left:6px}
-.pres-loc-inline{font-size:10.5px;font-weight:400;display:inline;margin-left:6px}
-.pres-vp{font-size:10.5px;color:#60A5FA;font-weight:600;margin:3px 0}
+.pres-loc-inline{font-size:10.5px;font-weight:400;display:block;margin:3px 0 0}
+.pres-vp{font-size:10.5px;color:var(--text);font-weight:600;margin:3px 0}
+.pres-vp-label{color:#FBBF24;font-weight:700}
 .pres-known{font-size:11.5px;color:#8CA4C8;line-height:1.45;margin-top:3px}
 .pres-trivia{font-size:11.5px;color:#8CA4C8;line-height:1.45;margin-top:3px}
 .pres-label{color:#FBBF24;font-weight:700}
@@ -706,8 +715,8 @@ header{
   padding:12px 16px;border-bottom:1px solid var(--border);
   background:var(--bg2);flex-shrink:0;
 }
-.quiz-header-title{font-size:16px;font-weight:800;letter-spacing:-0.3px;color:var(--text)}
-.quiz-header-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.quiz-header-title{font-size:18px;font-weight:800;letter-spacing:-0.3px;color:var(--text)}
+.quiz-header-sub{font-size:14px;color:var(--muted);margin-top:3px}
 .quiz-header-sub b{color:#FFD700;font-weight:800}
 .quiz-close{
   width:27px;height:27px;border-radius:50%;background:var(--surface2);
@@ -972,7 +981,6 @@ header{
   font-size:90px;font-weight:900;line-height:1;letter-spacing:-3px;
   background:linear-gradient(135deg,#FFEA9E 0%,#FFD700 45%,#FFA500 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 22px rgba(255,215,0,0.55));
 }
 .quiz-share-num-total{font-size:31px;font-weight:700;color:rgba(255,215,0,0.5)}
 .quiz-share-title{
@@ -987,19 +995,13 @@ header{
   margin:20px 0 16px;position:relative;z-index:1;
 }
 .quiz-share-stars{
-  font-size:22px;letter-spacing:5px;color:#FFD700;
-  text-shadow:0 0 12px rgba(255,215,0,0.55);
-  position:relative;z-index:1;margin-bottom:4px;
+  font-size:11px;font-weight:700;color:rgba(255,215,0,0.6);
+  letter-spacing:0.8px;position:relative;z-index:1;margin-bottom:4px;
 }
-.quiz-share-stars .star-empty{color:rgba(255,255,255,0.14);text-shadow:none}
+.quiz-share-stars-link{color:rgba(255,215,0,0.6);text-decoration:underline}
 .quiz-share-flag-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;margin-bottom:4px;position:relative;z-index:1}
 .quiz-share-flag{font-size:22px}
 .quiz-share-brand{font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);letter-spacing:1px}
-.quiz-share-footer{
-  margin-top:2px;text-align:center;
-  font-size:11px;font-weight:700;color:rgba(255,215,0,0.6);
-  letter-spacing:0.8px;position:relative;z-index:1;
-}
 
 /* ── keep old mini-quiz CSS stubs (not used anymore but avoids breakage) ── */
 .quick-quiz-card,.quick-quiz-q,.quick-quiz-opts,.quick-opt{display:none}
@@ -1072,15 +1074,15 @@ header{
 }
 .share-map-holder svg{width:100%;height:100%;display:block}
 .share-legend{
-  position:absolute;top:8px;right:8px;z-index:2;
-  display:flex;flex-direction:column;align-items:flex-end;
-  gap:4px;
+  position:absolute;top:16px;left:8px;z-index:2;
+  display:flex;flex-direction:column;align-items:flex-start;
+  gap:3px;
 }
 .share-legend-item{
   display:flex;align-items:center;justify-content:center;
-  border-radius:5px;padding:3px 8px;width:100%;
+  border-radius:4px;padding:2px 6px;width:100%;
 }
-.share-legend-lbl{font-size:8.5px;font-weight:700;white-space:nowrap;text-transform:uppercase}
+.share-legend-lbl{font-size:7px;font-weight:700;white-space:nowrap;text-transform:uppercase}
 .share-favnext-row{display:flex;gap:8px;margin-top:2px}
 .share-favnext-col{
   flex:1;text-align:center;background:rgba(255,255,255,0.05);
@@ -1584,12 +1586,11 @@ header{
       <div class="quiz-share-beat">Can you beat my score?</div>
     </div>
     <div class="quiz-share-divider"></div>
-    <div class="quiz-share-stars" id="quiz-share-stars">★★★★★</div>
+    <div class="quiz-share-stars" id="quiz-share-stars">Test your skills @ <a class="quiz-share-stars-link" href="https://project82ph.com" target="_blank" rel="noopener">project82ph.com</a></div>
     <div class="quiz-share-flag-row">
       <span class="quiz-share-flag">🇵🇭</span>
-      <span class="quiz-share-brand">Project82</span>
+      <span class="quiz-share-brand">Project82ph.com</span>
     </div>
-    <div class="quiz-share-footer">#TravelPH</div>
   </div>
 </div>
 
@@ -1751,7 +1752,7 @@ header{
     <div class="mtn-share-list-title" id="mtn-share-list-title">Mountains Climbed</div>
     <div class="mtn-share-list" id="mtn-share-list"></div>
     <div class="mtn-share-favnext" id="mtn-share-favnext"></div>
-    <div class="mtn-share-footer">Track your own list<br>👇<br><a class="mtn-share-footer-link" href="https://project82ph.com" target="_blank" rel="noopener">project82ph.com</a></div>
+    <div class="mtn-share-footer"><span class="mtn-share-footer-white">Track your own list</span><br><span class="mtn-share-footer-white">@</span> <a class="mtn-share-footer-link" href="https://project82ph.com" target="_blank" rel="noopener">project82ph.com</a></div>
   </div>
 </div>
 
@@ -1764,7 +1765,7 @@ header{
     <div class="share-info-title">Before sharing, tell me about you</div>
     <label class="share-info-label">Your Name</label>
     <input type="text" class="share-info-input" id="share-info-name" placeholder="Enter your name" maxlength="30">
-    <label class="share-info-label">Favorite Province (visited)</label>
+    <label class="share-info-label">Favorite Province</label>
     <select class="share-info-select" id="share-info-fav"></select>
     <label class="share-info-label">Next Province to Visit</label>
     <select class="share-info-select" id="share-info-next"></select>
@@ -3084,25 +3085,34 @@ function openMtnShare(name, fav, next) {
   const mtnItemHtml = (m) => `
       <div class="mtn-share-item">
         <span class="mtn-share-item-num">✓</span>
-        <span class="mtn-share-item-icon">${m.icon}</span>
         <span class="mtn-share-item-name">${m.name}</span>
       </div>
     `;
   if (count === 0) {
-    listEl.classList.remove("two-col", "many");
+    listEl.classList.remove("two-col", "three-col", "big");
     listEl.innerHTML = `<div class="mtn-share-empty"><span class="mtn-share-empty-icon">⛰️</span>No mountains climbed yet.<br>Tap <strong>+</strong> on any mountain to mark it!</div>`;
     document.getElementById("mtn-share-list-title").textContent = "";
   } else {
     document.getElementById("mtn-share-list-title").textContent = "Mountains Climbed";
     if (count <= 5) {
-      listEl.classList.remove("two-col", "many");
+      listEl.classList.remove("two-col", "three-col");
+      listEl.classList.add("big");
       listEl.innerHTML = climbed.map(mtnItemHtml).join("");
-    } else {
+    } else if (count <= 10) {
+      listEl.classList.remove("big", "three-col");
       listEl.classList.add("two-col");
-      listEl.classList.toggle("many", count > 10);
-      const left = climbed.slice(0, 5);
-      const right = climbed.slice(5);
+      const mid = Math.ceil(count / 2);
+      const left = climbed.slice(0, mid);
+      const right = climbed.slice(mid);
       listEl.innerHTML = `<div class="mtn-share-col">${left.map(mtnItemHtml).join("")}</div><div class="mtn-share-col">${right.map(mtnItemHtml).join("")}</div>`;
+    } else {
+      listEl.classList.remove("big", "two-col");
+      listEl.classList.add("three-col");
+      const third = Math.ceil(count / 3);
+      const c1 = climbed.slice(0, third);
+      const c2 = climbed.slice(third, third * 2);
+      const c3 = climbed.slice(third * 2);
+      listEl.innerHTML = `<div class="mtn-share-col">${c1.map(mtnItemHtml).join("")}</div><div class="mtn-share-col">${c2.map(mtnItemHtml).join("")}</div><div class="mtn-share-col">${c3.map(mtnItemHtml).join("")}</div>`;
     }
   }
   document.getElementById("mtn-share-favnext").innerHTML = `
@@ -3152,8 +3162,9 @@ function openPresidentsCal() {
         <img class="pres-photo" id="pres-photo-${i}" alt="${p.name}" style="display:none">
       </div>
       <div class="fest-info">
-        <div class="fest-name">${p.name} <span class="pres-term">📅 ${p.term}</span> <span class="fest-loc pres-loc-inline">📍 ${p.province}</span></div>
-        <div class="pres-vp">🤝 VP ${p.vp}</div>
+        <div class="fest-name">${p.name} <span class="pres-term">📅 ${p.term}</span></div>
+        <div class="fest-loc pres-loc-inline">📍 ${p.province}</div>
+        <div class="pres-vp"><span class="pres-vp-label">🤝 VP:</span> ${p.vp}</div>
         <div class="pres-known"><span class="pres-label">⭐ Known for:</span> ${p.knownFor}</div>
         <div class="pres-trivia"><span class="pres-label">💡 Trivia:</span> ${p.trivia}</div>
       </div>
@@ -3616,7 +3627,6 @@ const QUIZ_QUESTIONS = [
   {cat:"Mga Pangulo",q:"Sino ang naging Pangulo ng Pilipinas matapos ang EDSA Revolution noong 1986?",opts:["Fidel Ramos","Corazon Aquino","Joseph Estrada","Gloria Macapagal-Arroyo"],ans:1,exp:"Si Corazon Aquino ang naging ika-11 Pangulo ng Pilipinas matapos ang mapayapang EDSA People Power Revolution noong 1986."},
   {cat:"Heograpiya at mga Lungsod",q:"Aling rehiyon ang tinatawag na \"Davao Region\"?",opts:["Region X","Region XI","Region XII","Region XIII"],ans:1,exp:"Ang Davao Region, opisyal na Region XI, ay matatagpuan sa southeastern Mindanao at kinabibilangan ng Lungsod ng Davao."},
   {cat:"Pagkain at Lutuin",q:"Saang rehiyon nagmula ang inuming alak na \"Basi,\" gawa sa tubo ng asukal?",opts:["Bicol","Ilocos","Cagayan Valley","Pampanga"],ans:1,exp:"Ang Basi ay tradisyonal na inuming alak mula sa Ilocos, gawa sa fermented sugarcane juice."},
-  {cat:"Mga Tanyag na Pilipino",q:"Sino ang Pilipinong manlalaro ng basketball na kilala bilang \"The Big Difference\"?",opts:["Robert Jaworski","Ramon Fernandez","Alvin Patrimonio","June Mar Fajardo"],ans:1,exp:"Si Ramon Fernandez, kilala bilang \"El Presidente\" at \"The Big Difference,\" ay isa sa mga pinakadakilang basketbolista sa kasaysayan ng PBA."},
   {cat:"Mga Tourist Spot",q:"Saang lalawigan matatagpuan ang Banaue Rice Terraces?",opts:["Benguet","Mountain Province","Ifugao","Kalinga"],ans:2,exp:"Ang Banaue Rice Terraces, kilala bilang \"Ikawalong Kababalaghan ng Mundo,\" ay matatagpuan sa Ifugao."},
   {cat:"Mga Tourist Spot",q:"Aling isla ang kilala sa puting buhangin at sikat na destinasyon sa Western Visayas?",opts:["Bantayan Island","Boracay","Siargao","Camiguin"],ans:1,exp:"Ang Boracay sa Aklan, Western Visayas, ay kilala sa buong mundo para sa makinis nitong puting buhangin."},
   {cat:"Pamahalaan",q:"Ano ang kahulugan ng unang letrang \"C\" sa COMELEC?",opts:["Commission","Council","Committee","Congress"],ans:0,exp:"Ang COMELEC ay nangangahulugang Commission on Elections, ang ahensiyang namamahala sa mga halalan sa Pilipinas."},
@@ -3885,11 +3895,11 @@ function launchQuizConfetti() {
 
 // ── Quiz Result Share Card ──
 const QUIZ_RANKS = {
-  10: ['Philippines Grandmaster', 'PH Trivia Legend', 'Archipelago Genius', 'National Treasure'],
-  9:  ['Explorer Elite', 'Philippines Expert', 'Island Hopper Pro', 'Culture Connoisseur'],
-  7:  ['Seasoned Traveler', 'Rising Explorer', 'Province Pro', 'Heritage Hunter'],
-  5:  ['Curious Wanderer', 'Apprentice Explorer', 'Map Maker'],
-  0:  ['Rookie Explorer', 'Map Newbie', 'First-Time Voyager']
+  10: ['Philippines Grandmaster', 'PH Trivia Legend', 'Archipelago Genius', 'National Treasure', 'Bayan Whisperer', 'Trivia Datu', 'Sovereign of Trivia'],
+  9:  ['Explorer Elite', 'Philippines Expert', 'Island Hopper Pro', 'Culture Connoisseur', 'Barangay Braniac', 'Kilalang Manlalakbay', 'Sharp-Eyed Voyager'],
+  7:  ['Seasoned Traveler', 'Rising Explorer', 'Province Pro', 'Heritage Hunter', 'Fiesta Finder', 'Weekend Wanderer', 'Trail-Tested Trekker'],
+  5:  ['Curious Wanderer', 'Apprentice Explorer', 'Map Maker', 'Barangay Backpacker', 'Halfway Hiker', 'Bituing Umuusbong'],
+  0:  ['Rookie Explorer', 'Map Newbie', 'First-Time Voyager', 'Sagabal Simula', 'Wide-Eyed Wanderer', 'Freshman Feet']
 };
 function getQuizRank(score) {
   let pool;
@@ -3903,18 +3913,12 @@ function getQuizRank(score) {
 
 function openQuizShareCard() {
   const { emoji, title } = getQuizResultMeta(quizScore);
-  const pct = quizScore / QUIZ_TOTAL;
 
   document.getElementById('quiz-share-emoji').textContent = emoji;
   document.getElementById('quiz-share-num').textContent = quizScore;
   document.getElementById('quiz-share-num-total').textContent = `/ ${QUIZ_TOTAL}`;
   document.getElementById('quiz-share-title').textContent = title;
   document.getElementById('quiz-share-rank').textContent = getQuizRank(quizScore);
-
-  const starCount = Math.round(pct * 5);
-  document.getElementById('quiz-share-stars').innerHTML = Array.from({ length: 5 }, (_, i) =>
-    `<span class="${i < starCount ? '' : 'star-empty'}">★</span>`
-  ).join('');
 
   document.getElementById('quiz-share-overlay').classList.add('open');
 }
@@ -3927,16 +3931,16 @@ function closeQuizShareCard() {
 let pendingDataSource = null;
 function openDataMenu(source) {
   pendingDataSource = source;
-  if (source === 'presidents') closePresidentsCal();
-  else closeNCRCal();
+  // Note: intentionally NOT closing the Presidents/NCR modal here — the
+  // password popup sits on a higher z-index and layers on top of it, so
+  // the user stays on the Presidents/NCR view instead of flashing back
+  // to the homepage.
   const el = document.getElementById('pw-data-input');
   el.value = '';
   document.getElementById('pw-data-err').textContent = '';
   el.classList.remove('pw-error');
-  setTimeout(() => {
-    document.getElementById('pw-data-overlay').classList.add('open');
-    setTimeout(() => el.focus(), 80);
-  }, 200);
+  document.getElementById('pw-data-overlay').classList.add('open');
+  setTimeout(() => el.focus(), 80);
 }
 function closePwData() {
   document.getElementById('pw-data-overlay').classList.remove('open');
@@ -3952,6 +3956,14 @@ function confirmDataPassword() {
     return;
   }
   closePwData();
+  if (pendingDataSource === 'presidents') {
+    setTimeout(() => { doExportData(); }, 150);
+    return;
+  }
+  if (pendingDataSource === 'ncr') {
+    setTimeout(() => { doImportData(); }, 150);
+    return;
+  }
   setTimeout(() => {
     document.getElementById('pw-choice-overlay').classList.add('open');
   }, 150);
