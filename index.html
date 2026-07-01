@@ -1588,7 +1588,7 @@ header{
       <div class="quiz-share-beat">Can you beat my score?</div>
     </div>
     <div class="quiz-share-divider"></div>
-    <div class="quiz-share-stars" id="quiz-share-stars">Test your skills @ <a class="quiz-share-stars-link" href="https://project82ph.com" target="_blank" rel="noopener">project82ph.com</a></div>
+    <div class="quiz-share-stars" id="quiz-share-stars">Test your skills @ </div>
     <div class="quiz-share-flag-row">
       <span class="quiz-share-flag">🇵🇭</span>
       <span class="quiz-share-brand">Project82ph.com</span>
@@ -3694,8 +3694,17 @@ function confirmQuizCancel() {
   closeQuizOverlay();
 }
 
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 function initQuiz() {
-  quizPool = [...QUIZ_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, QUIZ_TOTAL);
+  quizPool = shuffleArray(QUIZ_QUESTIONS).slice(0, QUIZ_TOTAL);
   quizIdx = 0; quizScore = 0; quizStreak = 0; quizMistakes = [];
   document.getElementById('quiz-share-overlay').classList.remove('open');
   document.getElementById('quiz-review-overlay').classList.remove('open');
