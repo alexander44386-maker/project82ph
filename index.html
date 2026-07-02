@@ -378,8 +378,9 @@ header{
 }
 .mtn-month-label::after{content:"";flex:1;height:1px;background:rgba(16,185,129,0.2)}
 .mtn-date{font-size:10.5px;color:#10B981;font-weight:600;margin-bottom:3px}
+.mtn-diff-line{font-size:10.5px;color:#EF4444;font-weight:600;margin-bottom:3px;display:flex;align-items:center}
 .mtn-triangle{font-size:10px;line-height:1}
-.mtn-diff-badge{margin-left:8px;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:8px;letter-spacing:0.2px}
+.mtn-diff-badge{margin-left:6px;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:8px;letter-spacing:0.2px}
 .mtn-diff-red{color:#EF4444}
 .mtn-diff-yellow{color:#F59E0B}
 .mtn-diff-green{color:#10B981}
@@ -1737,16 +1738,16 @@ header{
     <div class="mtn-sort-menu" id="mtn-sort-menu">
       <div class="mtn-menu-header">Sort by <button type="button" class="mtn-menu-close" aria-label="Close sort menu" onclick="closeMtnSortMenu()">✕</button></div>
       <button class="mtn-menu-opt" onclick="setMtnSort('az')">A–Z</button>
-      <button class="mtn-menu-opt" onclick="setMtnSort('difficulty')">Easiest</button>
-      <button class="mtn-menu-opt" onclick="setMtnSort('highest')">Lowest</button>
+      <button class="mtn-menu-opt" onclick="setMtnSort('highest')">Highest</button>
+      <button class="mtn-menu-opt" onclick="setMtnSort('lowest')">Lowest</button>
     </div>
     <div class="mtn-filter-wrap">
-      <button class="mtn-icon-btn" id="mtn-filter-btn" type="button" aria-label="Filter by region" onclick="toggleMtnFilterMenu()">
+      <button class="mtn-icon-btn" id="mtn-filter-btn" type="button" aria-label="Filter by difficulty" onclick="toggleMtnFilterMenu()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 4 21 4 14 13 14 20 10 22 10 13 3 4"></polygon></svg>
       </button>
-      <button type="button" class="mtn-filter-clear" id="mtn-filter-clear" aria-label="Clear region filter" onclick="clearMtnFilter(event)">✕</button>
+      <button type="button" class="mtn-filter-clear" id="mtn-filter-clear" aria-label="Clear difficulty filter" onclick="clearMtnFilter(event)">✕</button>
       <div class="mtn-filter-menu" id="mtn-filter-menu">
-        <div class="mtn-menu-header">Filter by region <button type="button" class="mtn-menu-close" aria-label="Close filter menu" onclick="closeMtnFilterMenu()">✕</button></div>
+        <div class="mtn-menu-header">Filter by difficulty <button type="button" class="mtn-menu-close" aria-label="Close filter menu" onclick="closeMtnFilterMenu()">✕</button></div>
         <div id="mtn-filter-options"></div>
       </div>
     </div>
@@ -3223,28 +3224,8 @@ function updateMtnCountBadge() {
 
 // ── Mountain sort/filter/search ──
 let mtnSortMode = "az";
-let mtnRegionFilter = "all";
-const MTN_SORT_LABELS = { az: "A–Z", difficulty: "Easiest", highest: "Lowest" };
-
-// Resolve a province name (as it appears at the end of a mountain's
-// "location" string) to its PH region, reusing the PROVINCES dataset so the
-// two stay in sync automatically.
-function mtnProvinceRegion(provinceName) {
-  const p = PROVINCES.find(pr => pr.name === provinceName);
-  return p ? p.region : null;
-}
-
-// A mountain's location may list one place ("Arayat, Pampanga") or several
-// joined by " / " for mountains spanning multiple provinces. Returns the
-// unique set of regions that apply to this mountain.
-function mtnRegions(m) {
-  const parts = m.location.split("/").map(s => s.trim());
-  const regions = parts.map(p => {
-    const segs = p.split(",").map(s => s.trim());
-    return mtnProvinceRegion(segs[segs.length - 1]);
-  }).filter(Boolean);
-  return [...new Set(regions)];
-}
+let mtnDifficultyFilter = "all";
+const MTN_SORT_LABELS = { az: "A–Z", highest: "Highest", lowest: "Lowest" };
 
 // Grouping letter used in A–Z mode, ignoring a leading "Mt." prefix so
 // e.g. "Mt. Amuyao" groups under "A" and "Osmeña Peak" groups under "O".
@@ -3257,38 +3238,35 @@ function getFilteredMountains() {
   const q = (document.getElementById("mtn-search-input")?.value || "").trim().toLowerCase();
   const all = MOUNTAINS.flatMap(g => g.mountains);
   return all.filter(m => {
-    const regionMatch = mtnRegionFilter === "all" || mtnRegions(m).includes(mtnRegionFilter);
+    const diffMatch = mtnDifficultyFilter === "all" || mtnDiffLabel(m.difficulty) === mtnDifficultyFilter;
     const queryMatch = !q || m.name.toLowerCase().includes(q);
-    return regionMatch && queryMatch;
+    return diffMatch && queryMatch;
   });
 }
 
-function populateMtnRegionFilter() {
-  const all = MOUNTAINS.flatMap(g => g.mountains);
-  const regions = [...new Set(all.flatMap(mtnRegions))];
-  const order = ["CAR","Region I","Region II","Region III","Region IV-A","Region IV-B","Region V","Region VI","Region VII","Region VIII","Region IX","Region X","Region XI","Region XII","Region XIII","BARMM"];
-  regions.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+function populateMtnDifficultyFilter() {
   const optsEl = document.getElementById("mtn-filter-options");
-  const opts = ["all", ...regions];
-  optsEl.innerHTML = opts.map(r => `
-    <button class="mtn-menu-opt${r === mtnRegionFilter ? ' active' : ''}" data-region="${r.replace(/"/g,'&quot;')}" onclick="selectMtnRegion('${r.replace(/'/g,"\\'")}')">${r === "all" ? "All Regions" : r}</button>
+  const opts = ["all", "Beginner", "Intermediate", "Advanced", "Expert"];
+  optsEl.innerHTML = opts.map(d => `
+    <button class="mtn-menu-opt${d === mtnDifficultyFilter ? ' active' : ''}" data-difficulty="${d}" onclick="selectMtnDifficulty('${d}')">${d === "all" ? "All Levels" : d}</button>
   `).join("");
 }
 
-function selectMtnRegion(region) {
-  mtnRegionFilter = region;
+function selectMtnDifficulty(level) {
+  mtnDifficultyFilter = level;
   document.querySelectorAll("#mtn-filter-options .mtn-menu-opt").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.region === region);
+    btn.classList.toggle("active", btn.dataset.difficulty === level);
   });
-  document.getElementById("mtn-filter-clear").classList.toggle("show", region !== "all");
+  document.getElementById("mtn-filter-clear").classList.toggle("show", level !== "all");
   closeMtnFilterMenu();
   renderMountainsList();
 }
 
-function mtnDiffClass(d) {
-  if (d >= 7) return "mtn-diff-red";
-  if (d >= 4) return "mtn-diff-yellow";
-  return "mtn-diff-green";
+function mtnDiffLabel(d) {
+  if (d >= 8) return "Expert";
+  if (d >= 6) return "Advanced";
+  if (d >= 4) return "Intermediate";
+  return "Beginner";
 }
 
 function mtnCardHTML(m) {
@@ -3298,7 +3276,8 @@ function mtnCardHTML(m) {
       <div class="fest-info">
         <div class="fest-name">${m.name}</div>
         <div class="fest-loc">📍 ${m.location}</div>
-        <div class="mtn-date"><span class="mtn-triangle ${mtnDiffClass(m.difficulty)}">🔺</span> ${m.date} <span class="mtn-diff-badge ${mtnDiffClass(m.difficulty)}">Difficulty ${m.difficulty}/9</span></div>
+        <div class="mtn-date">⛰️ ${m.date}</div>
+        <div class="mtn-diff-line"><span class="mtn-triangle">🔺</span> <span class="mtn-diff-badge">${mtnDiffLabel(m.difficulty)}</span></div>
         <div class="mtn-popular">🌟 ${m.popular}</div>
         <div class="fest-desc">${m.desc}</div>
       </div>
@@ -3328,8 +3307,8 @@ function renderMountainsList() {
       </div>
     `).join("");
   } else {
-    const sorted = mtnSortMode === "difficulty"
-      ? [...filtered].sort((a, b) => a.difficulty - b.difficulty)
+    const sorted = mtnSortMode === "highest"
+      ? [...filtered].sort((a, b) => b.elev - a.elev)
       : [...filtered].sort((a, b) => a.elev - b.elev);
     body.innerHTML = `<div class="fest-month">${sorted.map(mtnCardHTML).join("")}</div>`;
   }
@@ -3361,7 +3340,7 @@ function closeMtnFilterMenu() {
 
 function clearMtnFilter(e) {
   if (e) e.stopPropagation();
-  selectMtnRegion("all");
+  selectMtnDifficulty("all");
 }
 
 function filterMountains() {
@@ -3390,8 +3369,8 @@ function toggleMtnSearch(forceClose) {
 function openMountainsCal() {
   loadMtnClimbed();
   mtnSortMode = "az";
-  mtnRegionFilter = "all";
-  populateMtnRegionFilter();
+  mtnDifficultyFilter = "all";
+  populateMtnDifficultyFilter();
   closeMtnSortMenu();
   closeMtnFilterMenu();
   document.getElementById("mtn-filter-clear").classList.remove("show");
