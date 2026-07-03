@@ -482,9 +482,9 @@ header{
 .mtn-fb-btn:active{transform:scale(0.96)}
 .mtn-fb-btn-lbl{font-size:7px;font-weight:700;letter-spacing:0.3px;text-transform:uppercase}
 
-/* ── HOMEPAGE FB SHARE BUTTON (same look, sits below other overlays) ── */
+/* ── HOMEPAGE FB SHARE BUTTON (sits inside the map, bottom-right, above the stats) ── */
 .home-fb-share-wrap{
-  position:fixed;bottom:16px;right:16px;z-index:40;
+  position:absolute;bottom:10px;right:10px;z-index:2;
 }
 .mtn-climbed-count-wrap{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -1407,6 +1407,13 @@ header{
         <div class="legend-item" style="background:#EF3134"><span class="legend-lbl" style="color:#FFFFFF">Want to Visit</span></div>
         <div class="legend-item" style="background:#1A5C5C"><span class="legend-lbl" style="color:#FFFFFF">Unvisited</span></div>
       </div>
+
+      <div class="home-fb-share-wrap" id="home-fb-wrap">
+        <button class="mtn-fb-btn" onclick="openShareInfoPopup()" aria-label="Share progress">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06C2 17.06 5.66 21.21 10.44 22v-7.02H7.9v-2.92h2.54V9.84c0-2.51 1.49-3.9 3.78-3.9 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.9h2.78l-.44 2.92h-2.34V22C18.34 21.21 22 17.06 22 12.06z"/></svg>
+          <span class="mtn-fb-btn-lbl">SHARE</span>
+        </button>
+      </div>
     </div>
 
     <div class="map-stats">
@@ -1471,14 +1478,6 @@ header{
     </div>
   </div>
 
-</div>
-
-<!-- Floating FB Share Button (homepage) -->
-<div class="home-fb-share-wrap" id="home-fb-wrap">
-  <button class="mtn-fb-btn" onclick="openShareInfoPopup()" aria-label="Share progress">
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06C2 17.06 5.66 21.21 10.44 22v-7.02H7.9v-2.92h2.54V9.84c0-2.51 1.49-3.9 3.78-3.9 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.9h2.78l-.44 2.92h-2.34V22C18.34 21.21 22 17.06 22 12.06z"/></svg>
-    <span class="mtn-fb-btn-lbl">SHARE</span>
-  </button>
 </div>
 
 <!-- Bottom Sheet Overlay -->
@@ -1629,7 +1628,7 @@ header{
 <!-- Quiz Result Share Overlay -->
 <div class="quiz-share-overlay" id="quiz-share-overlay">
   <button class="quiz-share-close" onclick="closeQuizShareCard()">✕</button>
-  <div class="quiz-share-hint">📸 Screenshot this card to share!</div>
+  <div class="quiz-share-hint" id="quiz-share-hint">📸 Screenshot this card to share!</div>
   <div class="quiz-share-card" id="quiz-share-card">
     <svg class="quiz-share-map-bg" viewBox="0 0 200 340" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
       <path d="M100,15 C120,10 138,25 142,50 C146,78 130,95 135,120 C140,145 120,160 105,155 C90,150 78,130 80,105 C82,80 70,60 75,40 C80,22 90,18 100,15 Z"/>
@@ -1795,7 +1794,7 @@ header{
 <!-- Mountain Share Overlay -->
 <div class="mtn-share-overlay" id="mtn-share-overlay">
   <button class="mtn-share-close" onclick="closeMtnShare()">✕</button>
-  <div class="mtn-share-hint">📸 Screenshot this card to share!</div>
+  <div class="mtn-share-hint" id="mtn-share-hint">📸 Screenshot this card to share!</div>
   <div class="mtn-share-card" id="mtn-share-card">
     <svg class="mtn-share-mountain-bg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <!-- starry sky -->
@@ -2277,7 +2276,7 @@ function openShareCard(travelerName, favProvince, nextProvince) {
   if (hint) hint.textContent = "📸 Screenshot this page to share on SocMed";
 
   document.getElementById("share-overlay").classList.add("open");
-  attemptNativeShare();
+  attemptNativeShare("share-card", "project82-share.png", "#PROJECT82", "Check out my Philippines travel progress! Track your own at project82ph.com");
 }
 
 function closeShareCard() {
@@ -2285,15 +2284,16 @@ function closeShareCard() {
 }
 
 // ── Share card image → native OS share sheet (Facebook Stories/Feed, etc.) ──
-// Falls back to the "screenshot this page" hint if native sharing isn't
-// available or the person cancels/declines it.
-async function attemptNativeShare() {
+// Falls back to whatever "screenshot this" hint is already on the card if
+// native sharing isn't available or the person cancels/declines it.
+async function attemptNativeShare(cardElId, fileName, shareTitle, shareText) {
   if (typeof html2canvas === "undefined" || !navigator.share) {
     return; // no image tool or no native share support — hint stays as-is
   }
 
   try {
-    const cardEl = document.getElementById("share-card");
+    const cardEl = document.getElementById(cardElId);
+    if (!cardEl) return;
     const canvas = await html2canvas(cardEl, {
       backgroundColor: "#0B1220",
       scale: 2,
@@ -2303,12 +2303,8 @@ async function attemptNativeShare() {
     const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
     if (!blob) return;
 
-    const file = new File([blob], "project82-share.png", { type: "image/png" });
-    const shareData = {
-      files: [file],
-      title: "#PROJECT82",
-      text: "Check out my Philippines travel progress! Track your own at project82ph.com"
-    };
+    const file = new File([blob], fileName, { type: "image/png" });
+    const shareData = { files: [file], title: shareTitle, text: shareText };
 
     if (!(navigator.canShare && navigator.canShare(shareData))) {
       return; // not supported — hint stays as-is
@@ -3546,7 +3542,11 @@ function openMtnShare(name, fav, next) {
       <div class="mtn-share-favnext-val">${next || "N/A"}</div>
     </div>
   `;
+  const mtnHint = document.getElementById("mtn-share-hint");
+  if (mtnHint) mtnHint.textContent = "📸 Screenshot this card to share!";
+
   document.getElementById("mtn-share-overlay").classList.add("open");
+  attemptNativeShare("mtn-share-card", "project82-mountains-share.png", "#PROJECT82 Mountains", "Check out my Philippine hiking journey! Track your own at project82ph.com");
 }
 
 function closeMtnShare() {
@@ -4373,7 +4373,11 @@ function openQuizShareCard() {
   document.getElementById('quiz-share-title').textContent = title;
   document.getElementById('quiz-share-rank').textContent = getQuizRank(quizScore);
 
+  const quizHint = document.getElementById('quiz-share-hint');
+  if (quizHint) quizHint.textContent = "📸 Screenshot this card to share!";
+
   document.getElementById('quiz-share-overlay').classList.add('open');
+  attemptNativeShare("quiz-share-card", "project82-quiz-share.png", "#PROJECT82 Quick Quiz", "Check out my PH Quick Quiz score! Track your own at project82ph.com");
 }
 
 function closeQuizShareCard() {
