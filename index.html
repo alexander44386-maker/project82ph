@@ -71,7 +71,7 @@ header{
   flex:1;min-height:62dvh;display:flex;align-items:center;justify-content:center;
   background:var(--ocean);overflow:hidden;position:relative;
 }
-.map-wrap svg{width:100%;height:100%;display:block;max-height:100%}
+#ph-map{width:100%;height:100%;display:block;max-height:100%}
 
 .province-path{
   cursor:pointer;stroke:#8ECFCE;stroke-width:0.7;stroke-linejoin:round;stroke-linecap:round;
@@ -1628,7 +1628,7 @@ header{
 <!-- Quiz Result Share Overlay -->
 <div class="quiz-share-overlay" id="quiz-share-overlay">
   <button class="quiz-share-close" onclick="closeQuizShareCard()">✕</button>
-  <div class="quiz-share-hint" id="quiz-share-hint">📸 Screenshot this card to share!</div>
+  <div class="quiz-share-hint" id="quiz-share-hint"></div>
   <div class="quiz-share-card" id="quiz-share-card">
     <svg class="quiz-share-map-bg" viewBox="0 0 200 340" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
       <path d="M100,15 C120,10 138,25 142,50 C146,78 130,95 135,120 C140,145 120,160 105,155 C90,150 78,130 80,105 C82,80 70,60 75,40 C80,22 90,18 100,15 Z"/>
@@ -1794,7 +1794,7 @@ header{
 <!-- Mountain Share Overlay -->
 <div class="mtn-share-overlay" id="mtn-share-overlay">
   <button class="mtn-share-close" onclick="closeMtnShare()">✕</button>
-  <div class="mtn-share-hint" id="mtn-share-hint">📸 Screenshot this card to share!</div>
+  <div class="mtn-share-hint" id="mtn-share-hint"></div>
   <div class="mtn-share-card" id="mtn-share-card">
     <svg class="mtn-share-mountain-bg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <!-- starry sky -->
@@ -2231,9 +2231,11 @@ function openShareCard(travelerName, favProvince, nextProvince) {
   const srcSvg = document.getElementById("ph-map");
   const clone = srcSvg.cloneNode(true);
   clone.removeAttribute("id");
+  clone.style.pointerEvents = "none";
   clone.querySelectorAll(".province-path").forEach(el=>{
     el.classList.remove("selected");
     el.style.cursor = "default";
+    el.style.pointerEvents = "none";
   });
   const holder = document.getElementById("share-map-holder");
   holder.innerHTML = "";
@@ -3543,7 +3545,7 @@ function openMtnShare(name, fav, next) {
     </div>
   `;
   const mtnHint = document.getElementById("mtn-share-hint");
-  if (mtnHint) mtnHint.textContent = "📸 Screenshot this card to share!";
+  if (mtnHint) mtnHint.textContent = "";
 
   document.getElementById("mtn-share-overlay").classList.add("open");
   attemptNativeShare("mtn-share-card", "project82-mountains-share.png", "#PROJECT82 Mountains", "Check out my Philippine hiking journey! Track your own at project82ph.com");
@@ -4374,7 +4376,7 @@ function openQuizShareCard() {
   document.getElementById('quiz-share-rank').textContent = getQuizRank(quizScore);
 
   const quizHint = document.getElementById('quiz-share-hint');
-  if (quizHint) quizHint.textContent = "📸 Screenshot this card to share!";
+  if (quizHint) quizHint.textContent = "";
 
   document.getElementById('quiz-share-overlay').classList.add('open');
   attemptNativeShare("quiz-share-card", "project82-quiz-share.png", "#PROJECT82 Quick Quiz", "Check out my PH Quick Quiz score! Track your own at project82ph.com");
