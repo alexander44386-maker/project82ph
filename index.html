@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="description" content="#PROJECT82 is a free interactive travel diary for tracking every province you've visited across the Philippines' 82 provinces — tap the map, log memories, take a PH quiz, and share your progress."/>
 <title>🇵🇭 PROJECT82PH.COM</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;1,400&display=swap" rel="stylesheet"/>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8317951667075818"
@@ -23,7 +24,49 @@
 html{height:100%;background:var(--bg)}
 body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);min-height:100%}
 #app-shell{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;background:var(--bg)}
-#ad-slot{width:100%;display:flex;justify-content:center;padding:28px 16px 40px;background:var(--bg2)}
+
+/* ── IN-FLOW LEGAL FOOTER (placed below main content, reached by scrolling — mirrors CIA reference) ── */
+.app-legal-footer{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;
+  padding:16px 20px 30px;border-top:1px solid var(--border);margin-top:6px;
+}
+.app-legal-footer button{
+  background:none;border:none;padding:4px 2px;font-size:11px;font-weight:700;
+  color:var(--muted);cursor:pointer;font-family:inherit;
+}
+.app-legal-footer button:active{color:var(--text)}
+.app-legal-footer-copy{width:100%;text-align:center;font-size:10px;color:var(--dim);margin-top:4px}
+
+/* ── FOOTER BAR (ad only, always visible — no scrolling required) ── */
+#site-footer{flex-shrink:0;background:var(--bg2);border-top:1px solid var(--border)}
+#ad-slot{width:100%;display:flex;justify-content:center;align-items:center;padding:4px 10px;min-height:50px}
+
+/* ── LEGAL / INFO OVERLAYS ── */
+.legal-overlay{
+  position:fixed;inset:0;z-index:400;background:var(--bg);
+  transform:translateY(100%);transition:transform 0.22s ease;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.legal-overlay.open{transform:translateY(0)}
+.legal-header{
+  display:flex;align-items:center;gap:12px;padding:12px 16px;
+  border-bottom:1px solid var(--border);position:sticky;top:0;
+  background:var(--bg2);z-index:1;
+}
+.legal-back{
+  background:none;border:none;color:var(--text);font-size:20px;
+  cursor:pointer;line-height:1;padding:4px 6px 4px 0;font-family:inherit;
+}
+.legal-back:active{opacity:0.7}
+.legal-title{font-size:15px;font-weight:800;color:var(--text)}
+.legal-body{padding:18px 18px 50px;font-size:13px;line-height:1.65;color:var(--muted);max-width:600px;margin:0 auto}
+.legal-body h3{font-size:14px;font-weight:800;margin:20px 0 8px;color:var(--text)}
+.legal-body h3:first-child{margin-top:0}
+.legal-body p{margin:0 0 12px}
+.legal-body ul{margin:0 0 12px;padding-left:20px}
+.legal-body li{margin-bottom:6px}
+.legal-body a{color:#86D2C8}
+.legal-updated{font-size:11px;color:var(--dim);font-weight:700;margin-bottom:18px}
 
 /* ── HEADER ── */
 header{
@@ -274,7 +317,7 @@ header{
 
 .others-btn{
   display:flex;align-items:center;justify-content:center;gap:7px;
-  padding:5px 0;border-radius:9px;border:1px solid var(--border2);
+  padding:2px 0;border-radius:9px;border:1px solid var(--border2);
   background:var(--surface);color:var(--muted);font-size:14px;font-weight:600;
   font-family:inherit;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   transition:background 0.15s,color 0.15s,border-color 0.15s;
@@ -699,12 +742,6 @@ header{
   font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:301;
 }
 
-/* Quick quiz launcher row on home */
-.quick-quiz-row{
-  padding:8px 14px 14px;border-top:1px solid var(--border);background:var(--bg2);
-  display:flex;align-items:center;justify-content:center;
-}
-.quick-quiz-label{display:none}
 .quick-quiz-launch-btn{
   width:50px;height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   border-radius:10px;
@@ -728,6 +765,11 @@ header{
   box-shadow:0 0 22px rgba(139,92,246,0.35),inset 0 1px 0 rgba(255,255,255,0.08);
 }
 .quick-quiz-launch-btn:active{transform:scale(0.95)}
+.quick-quiz-launch-btn.hdr-quiz-btn{
+  width:37px;height:40px;padding:6px 0 5px;border-radius:8px;
+  font-size:7px;letter-spacing:0.4px;gap:2px;
+}
+.quick-quiz-launch-btn.hdr-quiz-btn .quick-quiz-text{line-height:1.15}
 .quick-quiz-launch-icon{font-size:26px;line-height:1}
 .quick-quiz-text{line-height:1.2;text-align:center}
 
@@ -792,6 +834,7 @@ header{
 }
 .quiz-body::-webkit-scrollbar{width:3px}
 .quiz-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.quiz-ad-slot{flex-shrink:0;width:100%;display:flex;justify-content:center;align-items:center;padding:4px 10px;min-height:50px;background:var(--bg2);border-top:1px solid var(--border)}
 
 /* Progress bar */
 .quiz-progress-row{display:flex;align-items:center;gap:10px;flex-shrink:0}
@@ -1081,7 +1124,7 @@ header{
 .hdr-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .icon-act-btn{
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0;
-  width:42px;padding:6px 0 5px;border-radius:8px;
+  width:37px;height:40px;padding:6px 0 5px;border-radius:8px;
   background:var(--surface2);border:1px solid var(--border2);
   color:var(--muted);font-family:inherit;
   cursor:pointer;transition:background 0.12s,color 0.12s,border-color 0.12s;
@@ -1252,6 +1295,9 @@ header{
     </div>
   </div>
   <div class="hdr-right">
+    <button class="quick-quiz-launch-btn hdr-quiz-btn" onclick="openQuizOverlay()" aria-label="PH Quiz">
+      <span class="quick-quiz-text">PH<br>QUIZ</span>
+    </button>
     <button class="icon-act-btn" id="save-all-btn" onclick="saveAllData()" aria-label="Save progress">
       <svg viewBox="0 0 24 24" style="width:17px;height:17px"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
       <span class="icon-act-lbl">SAVE</span>
@@ -1440,11 +1486,14 @@ header{
       </div>
     </div>
 
-    <!-- Quick Quiz launcher -->
-    <div class="quick-quiz-row">
-      <button class="quick-quiz-launch-btn" onclick="openQuizOverlay()">
-        <span class="quick-quiz-text">Quick<br>PH Quiz</span>
-      </button>
+    <!-- Legal pages (in-flow, below main content — reached by scrolling, matching CIA reference pattern) -->
+    <div class="app-legal-footer">
+      <button onclick="openLegal('about')">About</button>
+      <button onclick="openLegal('contact')">Contact</button>
+      <button onclick="openLegal('privacy')">Privacy Policy</button>
+      <button onclick="openLegal('terms')">Terms of Use</button>
+      <button onclick="openLegal('disclaimer')">Disclaimer</button>
+      <div class="app-legal-footer-copy">© <span id="footer-year"></span> Project82ph.com</div>
     </div>
     </div><!-- end map-scroll -->
   </div>
@@ -1610,6 +1659,14 @@ header{
         </button>
       </div>
     </div>
+  </div>
+  <div class="quiz-ad-slot">
+    <ins class="adsbygoogle"
+         style="display:block;width:100%;max-width:728px"
+         data-ad-client="ca-pub-8317951667075818"
+         data-ad-slot="4198770468"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
   </div>
 </div>
 
@@ -1898,7 +1955,10 @@ header{
           <div class="share-favnext-val" id="share-favnext-next-val">—</div>
         </div>
       </div>
-
+    </div>
+  </div>
+</div>
+<!-- /share-overlay: closing tags were missing here, which had accidentally nested every later modal (password dialogs, and especially the legal/info overlays) inside this hidden share-card. That's why the legal pages were clickable (the onclick handlers still ran) but never visibly appeared. -->
 
 <script>
 const PROVINCES = [
@@ -2335,6 +2395,21 @@ document.getElementById("region-filter").addEventListener("change",renderList);
 document.getElementById("diary-textarea").addEventListener("input",()=>{ if(selectedId) sheetDirty = true; });
 document.getElementById("diary-textarea").addEventListener("blur",()=>{ if(selectedId) saveEntry(); });
 
+// ── Shared fix: iOS Safari sometimes fails to recalc the scrollable
+// height of a `-webkit-overflow-scrolling:touch` container after its
+// content is replaced via innerHTML, leaving it stuck showing only the
+// first screenful. Forcing a reflow (toggling overflow) + resetting
+// scrollTop after content is injected works around it reliably.
+function forceScrollReflow(el) {
+  if (!el) return;
+  el.scrollTop = 0;
+  const prevOverflow = el.style.overflowY;
+  el.style.overflowY = "hidden";
+  void el.offsetHeight; // force layout/reflow
+  el.style.overflowY = prevOverflow || "auto";
+  requestAnimationFrame(() => { el.scrollTop = 0; });
+}
+
 // ── Festival Calendar ──
 const FESTIVALS = [
   {
@@ -2644,6 +2719,7 @@ function openFestivalCal() {
   document.getElementById("fest-search-wrap").classList.remove("open");
   document.getElementById("fest-search-input").value = "";
   document.getElementById("fest-overlay").classList.add("open");
+  forceScrollReflow(document.getElementById("fest-overlay"));
 }
 
 function filterFestivalsByMonth() {
@@ -3445,6 +3521,7 @@ function openMountainsCal() {
 
   updateMtnCountBadge();
   document.getElementById("mtn-overlay").classList.add("open");
+  forceScrollReflow(document.getElementById("mtn-overlay"));
 }
 
 function closeMountainsCal() {
@@ -3594,6 +3671,7 @@ function openPresidentsCal() {
     </div>
   `).join("");
   document.getElementById("pres-overlay").classList.add("open");
+  forceScrollReflow(document.getElementById("pres-overlay"));
   PRESIDENTS.forEach((p, i) => loadPresPhoto(i, p.wiki));
 }
 
@@ -3784,6 +3862,7 @@ function openNCRCal() {
     </div>
   `).join("");
   document.getElementById("ncr-overlay").classList.add("open");
+  forceScrollReflow(document.getElementById("ncr-overlay"));
 }
 
 function openCityPhoto(idx) {
@@ -4104,6 +4183,10 @@ function updateQuizHeaderStats() {
 
 function openQuizOverlay() {
   document.getElementById('quiz-overlay').classList.add('open');
+  if (!window._quizAdLoaded) {
+    window._quizAdLoaded = true;
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  }
   initQuiz();
 }
 
@@ -4510,20 +4593,131 @@ function handleImportFile(e) {
 <!-- Hidden file input for import -->
 <input type="file" id="import-file-input" accept=".json" style="position:fixed;top:-100px;left:-100px;width:1px;height:1px;opacity:0;pointer-events:none;" onchange="handleImportFile(event)"/>
 
+<!-- Footer bar: ad only — stays part of the fixed-height shell so it's visible without scrolling -->
+<div id="site-footer">
+  <div id="ad-slot">
+    <ins class="adsbygoogle"
+         style="display:block;width:100%;max-width:728px"
+         data-ad-client="ca-pub-8317951667075818"
+         data-ad-slot="4198770468"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
 </div>
-<!-- /app-shell: everything above is the fixed-height app. Everything below only becomes visible on scroll. -->
 
-<!-- Ad (sits after the app, out of its way) -->
-<div id="ad-slot">
-  <ins class="adsbygoogle"
-       style="display:block;width:100%;max-width:728px"
-       data-ad-client="ca-pub-8317951667075818"
-       data-ad-slot="4198770468"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
+<!-- Legal / Info Overlays -->
+<div class="legal-overlay" id="legal-about">
+  <div class="legal-header"><button class="legal-back" onclick="closeLegal()" aria-label="Back">←</button><div class="legal-title">About</div></div>
+  <div class="legal-body">
+    <h3>What is this?</h3>
+    <p>#PROJECT82 is a free, independent travel diary for exploring the Philippines. Tap any of the country's 82 provinces on the interactive map to mark it as visited or a place you'd like to go, jot down memories from your trip, and watch your progress fill in.</p>
+    <h3>What's inside</h3>
+    <ul>
+      <li>An interactive map of all 82 Philippine provinces</li>
+      <li>A province-by-province list view with notes and status tracking</li>
+      <li>A mountains-climbed tracker for hikers</li>
+      <li>Quick quizzes about Philippine geography, culture, and history</li>
+      <li>Shareable progress cards for social media</li>
+    </ul>
+    <h3>Independence</h3>
+    <p>Project82ph.com is an independently produced hobby project. It is not affiliated with, endorsed by, or produced by any Philippine government agency or tourism board.</p>
+  </div>
 </div>
+
+<div class="legal-overlay" id="legal-contact">
+  <div class="legal-header"><button class="legal-back" onclick="closeLegal()" aria-label="Back">←</button><div class="legal-title">Contact</div></div>
+  <div class="legal-body">
+    <h3>Get in Touch</h3>
+    <p>Found a bug, have feedback, or want to suggest a feature? We'd love to hear from you.</p>
+    <p>Email: <a href="mailto:brendevera.p82@gmail.com">brendevera.p82@gmail.com</a></p>
+    <p>We read every message, though as a small independent project we may not be able to reply to all of them individually.</p>
+  </div>
+</div>
+
+<div class="legal-overlay" id="legal-privacy">
+  <div class="legal-header"><button class="legal-back" onclick="closeLegal()" aria-label="Back">←</button><div class="legal-title">Privacy Policy</div></div>
+  <div class="legal-body">
+    <p class="legal-updated">Last updated: July 7, 2026</p>
+    <h3>Overview</h3>
+    <p>Project82ph.com ("the site") is a free travel-tracking tool for exploring the Philippines. This policy explains what information is collected when you use the site and how it's used.</p>
+    <h3>Information We Collect</h3>
+    <p>The site does not require an account and does not collect names, emails, or other personal details from you directly. Your province progress, notes, mountain log, and settings are stored locally in your browser using localStorage, and never leave your device unless you use the built-in export or share features yourself.</p>
+    <h3>Advertising & Cookies</h3>
+    <p>This site may display ads served by Google AdSense. Google and its partners may use cookies or similar technologies to serve ads based on your prior visits to this or other websites.</p>
+    <ul>
+      <li>Google may use cookies to serve ads based on a user's prior visits.</li>
+      <li>You can opt out of personalized advertising by visiting <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google's Ads Settings</a>, or generally opt out of third-party vendors' use of cookies at <a href="https://www.aboutads.info/choices" target="_blank" rel="noopener">www.aboutads.info/choices</a>.</li>
+      <li>Third-party vendors may also use cookies to serve ads on this site. See <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">how Google uses information from sites that use its services</a> for more detail.</li>
+    </ul>
+    <h3>Analytics</h3>
+    <p>We may use basic, aggregated analytics to understand overall traffic and usage patterns. This data does not identify you personally.</p>
+    <h3>Children's Privacy</h3>
+    <p>This site is intended for general audiences and is not directed at children under 13.</p>
+    <h3>Changes to This Policy</h3>
+    <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated revision date.</p>
+  </div>
+</div>
+
+<div class="legal-overlay" id="legal-terms">
+  <div class="legal-header"><button class="legal-back" onclick="closeLegal()" aria-label="Back">←</button><div class="legal-title">Terms of Use</div></div>
+  <div class="legal-body">
+    <p class="legal-updated">Last updated: July 7, 2026</p>
+    <h3>Acceptance of Terms</h3>
+    <p>By using Project82ph.com, you agree to these Terms of Use. If you do not agree, please discontinue use of the site.</p>
+    <h3>Use of the Site</h3>
+    <p>The site is provided for personal, non-commercial use. You may not copy, redistribute, or resell the site's content without permission.</p>
+    <h3>No Guarantee</h3>
+    <p>This site is a personal travel-tracking tool. Map boundaries, quiz content, and other information are provided for general reference and enjoyment only, and may contain errors or omissions.</p>
+    <h3>Local Data</h3>
+    <p>Your progress is stored in your browser's local storage. Clearing your browser data, switching browsers, or switching devices may result in loss of saved progress unless you use the export feature.</p>
+    <h3>Limitation of Liability</h3>
+    <p>The site is provided "as is" without warranties of any kind. We are not liable for any damages or losses arising from use of the site.</p>
+    <h3>Changes</h3>
+    <p>We may update these terms from time to time. Continued use of the site after changes constitutes acceptance of the new terms.</p>
+  </div>
+</div>
+
+<div class="legal-overlay" id="legal-disclaimer">
+  <div class="legal-header"><button class="legal-back" onclick="closeLegal()" aria-label="Back">←</button><div class="legal-title">Disclaimer</div></div>
+  <div class="legal-body">
+    <h3>Not an Official Source</h3>
+    <p>Project82ph.com is an independent, unofficial hobby project. It is not created, reviewed, endorsed, or affiliated with any Philippine government agency, tourism board, or mapping authority.</p>
+    <h3>Accuracy</h3>
+    <p>Province boundaries, quiz questions, and other content are provided as a general travel-tracking and trivia aid. While care is taken to keep content accurate and up to date, the site may contain errors or omissions and should not be relied on as an authoritative source.</p>
+    <h3>For Fun, Not for Navigation</h3>
+    <p>Always refer to official maps and government sources for travel planning, boundaries, or geographic accuracy. This site is best used to track and share your own travel journey, not as a primary reference.</p>
+  </div>
+</div>
+
+</div>
+<!-- /app-shell: the ad and legal links now live inside the fixed-height shell, so they're visible without scrolling past the app. -->
+
 <script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+  (adsbygoogle = window.adsbygoogle || []).push({});
+
+  // If AdSense doesn't fill the slot (not yet approved, no fill, blocked, etc.),
+  // collapse the whole footer bar instead of leaving an empty box on screen.
+  (function collapseUnfilledAdFooter() {
+    var footer = document.getElementById('site-footer');
+    var ins = footer ? footer.querySelector('ins.adsbygoogle') : null;
+    if (!footer || !ins) return;
+    setTimeout(function() {
+      var status = ins.getAttribute('data-ad-status');
+      var hasHeight = ins.offsetHeight > 10;
+      if (status === 'unfilled' || !hasHeight) {
+        footer.style.display = 'none';
+      }
+    }, 2500);
+  })();
+
+  function openLegal(page){
+    var el = document.getElementById('legal-' + page);
+    if (el) el.classList.add('open');
+  }
+  function closeLegal(){
+    document.querySelectorAll('.legal-overlay.open').forEach(function(el){ el.classList.remove('open'); });
+  }
 </script>
 
 </body>
