@@ -834,7 +834,6 @@ header{
 }
 .quiz-body::-webkit-scrollbar{width:3px}
 .quiz-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-.quiz-ad-slot{flex-shrink:0;width:100%;display:flex;justify-content:center;align-items:center;padding:4px 10px;min-height:50px;background:var(--bg2);border-top:1px solid var(--border)}
 
 /* Progress bar */
 .quiz-progress-row{display:flex;align-items:center;gap:10px;flex-shrink:0}
@@ -1288,7 +1287,7 @@ header{
 <!-- Header -->
 <header>
   <div class="hdr-left">
-    <span style="font-size:20px">🇵🇭</span>
+    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,#0038A8,#CE1126);color:#fff;font-size:11px;font-weight:800;letter-spacing:0.3px;flex-shrink:0">PH</span>
     <div>
       <h1>#PROJECT82</h1>
       <p>MY PH TRAVEL DIARY</p>
@@ -1659,15 +1658,6 @@ header{
         </button>
       </div>
     </div>
-  </div>
-  <div class="quiz-ad-slot">
-    <!-- QuizPH -->
-    <ins class="adsbygoogle"
-         style="display:block;width:100%;max-width:728px"
-         data-ad-client="ca-pub-8317951667075818"
-         data-ad-slot="6861566590"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
   </div>
 </div>
 
@@ -4184,11 +4174,11 @@ function updateQuizHeaderStats() {
 
 function openQuizOverlay() {
   document.getElementById('quiz-overlay').classList.add('open');
-  if (!window._quizAdLoaded) {
-    window._quizAdLoaded = true;
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  }
-  initQuiz();
+  // Paint the overlay first, then build the quiz on the next frame so the
+  // open animation isn't blocked by DOM work (feels instant instead of laggy).
+  requestAnimationFrame(() => {
+    initQuiz();
+  });
 }
 
 function closeQuizOverlay() {
